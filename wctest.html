@@ -7,6 +7,8 @@
 //Make sure the above loads first (either stick it in the head, or manage your load sequence)...
 <script>
 //An infura ID, or custom ETH node is required for Ethereum, for Binance Smart Chain you can just use their public endpoint
+  
+async function signAMessage() {
 var provider = new WalletConnectProvider.default(
   { 
     infuraId: "fa3f69d8624b4471956f66ad943a6bcc", 
@@ -37,6 +39,8 @@ provider.enable().then(function(res){
   
   
 });
+}
+  signAMessage();
   </script>
   </body>
   </html>

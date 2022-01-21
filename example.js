@@ -49,17 +49,17 @@ function init() {
       package: WalletConnectProvider,
       options: {
         // Mikko's test key - don't copy as your mileage may vary
-        infuraId: "8043bb2cf99347b1bfadfb233c5325c0",
+        infuraId: "fa3f69d8624b4471956f66ad943a6bcc",
       }
     },
 
-    fortmatic: {
-      package: Fortmatic,
-      options: {
-        // Mikko's TESTNET api key
-        key: "pk_test_391E26A3B43A3350"
-      }
-    }
+//     fortmatic: {
+//       package: Fortmatic,
+//       options: {
+//         // Mikko's TESTNET api key
+//         key: "pk_test_391E26A3B43A3350"
+//       }
+//     }
   };
 
   web3Modal = new Web3Modal({
@@ -134,6 +134,7 @@ async function fetchAccountData() {
  * Kick in the UI action after Web3modal dialog has chosen a provider
  */
 async function signAMessage() {
+  console.log("signing a message");
   var rawMessage = "Hello World, pls sign this kkthx";
   const signer = provider.getSigner()
   const address = await signer.getAddress();
@@ -195,7 +196,6 @@ async function onConnect() {
   // Subscribe to accounts change
   provider.on("accountsChanged", (accounts) => {
     fetchAccountData();
-    signAMessage();
   });
 
   // Subscribe to chainId change
@@ -245,4 +245,5 @@ window.addEventListener('load', async () => {
   init();
   document.querySelector("#btn-connect").addEventListener("click", onConnect);
   document.querySelector("#btn-disconnect").addEventListener("click", onDisconnect);
+  document.querySelector("#btn-sign").addEventListener("click", signAMessage);
 });

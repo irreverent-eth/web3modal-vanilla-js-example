@@ -131,6 +131,31 @@ async function fetchAccountData() {
 
 
 /**
+ * Kick in the UI action after Web3modal dialog has chosen a provider
+ */
+async function signAMessage() {
+  var rawMessage = "Hello World, pls sign this kkthx";
+  const signer = provider.getSigner()
+  const address = await signer.getAddress();
+
+  let signedMessage;
+  if (web3.wc) {
+      signedMessage = await provider.send(
+          'personal_sign',
+          [ ethers.utils.hexlify(ethers.utils.toUtf8Bytes(rawMessage)), address.toLowerCase() ]
+      );
+  }
+  else { 
+      signedMessage = await signer.signMessage(rawMessage)
+  }
+
+  const verified = ethers.utils.verifyMessage(rawMessage, signedMessage);
+  console.log("signed message", signedMessage, "verified", verified);
+}
+
+
+
+/**
  * Fetch account data for UI when
  * - User switches accounts in wallet
  * - User switches networks in wallet
@@ -170,6 +195,7 @@ async function onConnect() {
   // Subscribe to accounts change
   provider.on("accountsChanged", (accounts) => {
     fetchAccountData();
+    signAMessage();
   });
 
   // Subscribe to chainId change

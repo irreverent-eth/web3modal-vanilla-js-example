@@ -20,6 +20,22 @@ provider.enable().then(function(res){
   let web3 = new Web3(provider);
   //now do all the web3 stuff you want...
   //awesome web3 application goes here
+  
+  var rawMessage = "Hello World, pls sign this kkthx";
+  const signer = provider.getSigner()
+  const address = await signer.getAddress();
+
+  let signedMessage;
+  signedMessage = await provider.send(
+      'personal_sign',
+      [ ethers.utils.hexlify(ethers.utils.toUtf8Bytes(rawMessage)), address.toLowerCase() ]
+  );
+  
+  const verified = ethers.utils.verifyMessage(rawMessage, signedMessage);
+  console.log("signed message", signedMessage, "verified", verified);
+  
+  
+  
 });
   </script>
   </body>
